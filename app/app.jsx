@@ -1,17 +1,15 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var Announcement = require('Announcement');
+var Main = require('Main');
 
-var objOne = {
-    name: 'Andrew',
-    location: 'Philadelphia'
-};
+var TrainSchedule = require('TrainSchedule').configure();
 
-var objTwo = {
-    age: 25,
-    ...objOne
-};
 
 ReactDOM.render(
-    <h1>Boilerplate app!</h1>,
+    <div>
+        <Announcement />
+        <Main />
+    </div>,
     document.getElementById('app')
 );
