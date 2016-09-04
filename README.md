@@ -65,6 +65,9 @@ If you wish to see this application running in live, click [here]().
 + In another tab run the server:
 `$ node server.js`
 
++ Now open a new tab in your browser and visit: 
+`http://localhost:3000/`
+
 #### Tests
 
 If you wish to see the tests running, type in your terminal:
