@@ -21506,12 +21506,17 @@
 	    displayName: 'Main',
 
 	    render: function render() {
+	        // Get from Redux
 	        var TS = TrainSchedule.getState();
 	        var journey = TS.journey;
 	        var callingPoints = TS.callingPoints;
-	        var trainStation = "initial";
-	        var trainState = "notpassed";
 	        var stationLength = callingPoints.length;
+	        var trainStation = "initial";
+	        if ("actual" in callingPoints[0]) {
+	            var trainState = "passed";
+	        } else {
+	            var trainState = "notpassed";
+	        }
 	        return React.createElement(
 	            'div',
 	            null,
@@ -21520,8 +21525,31 @@
 	                { className: 'announcement' },
 	                React.createElement(Announcement, { journey: journey })
 	            ),
-	            callingPoints.map(function (callingPoint, i, trainStation, trainState, stationLength) {
-	                return React.createElement(Station, { callingpoint: callingPoint, key: i, trainStation: trainStation, trainState: trainState, stationPosition: i, stationLength: stationLength });
+	            callingPoints.map(function (callingPoint, i) {
+	                if (trainState == "arriving") {
+	                    var initialState = "notpassed";
+	                } else {
+	                    var initialState = trainState;
+	                }
+	                if ("actual" in callingPoint && i == 0) {
+	                    trainState = "passed";
+	                    trainStation = "initial";
+	                } else if ("actual" in callingPoint) {
+	                    trainState = "passed";
+	                    trainStation = "middle";
+	                } else if (i == callingPoints.length - 1) {
+	                    trainState = "notpassed";
+	                    trainStation = "last";
+	                } else {
+	                    trainState = "notpassed";
+	                    trainStation = "middle";
+	                }
+	                // Special case train is about to arrive
+	                if (initialState != trainState) {
+	                    trainState = "arriving";
+	                }
+	                // console.log("For station " + callingPoint.station + " we pass " + trainState + ":" + trainStation);
+	                return React.createElement(Station, { callingpoint: callingPoint, key: i, trainState: trainState, trainStation: trainStation });
 	            })
 	        );
 	    }
@@ -22508,30 +22536,8 @@
 	    render: function render() {
 	        // Props we get
 	        var callingPoint = this.props.callingpoint;
-	        var stationPosition = this.props.stationPosition;
-	        var stationLength = this.props.stationLength;
 	        var trainStation = this.props.trainStation;
 	        var trainState = this.props.trainState;
-
-	        // Check if train has passed or not and where it is
-	        var initialState = trainState;
-	        if ("actual" in callingPoint && stationPosition == 0) {
-	            trainState = "passed";
-	            trainStation = "initial";
-	        } else if ("actual" in callingPoint) {
-	            trainState = "passed";
-	            trainStation = "middle";
-	        } else if (stationPosition == stationLength - 1) {
-	            trainState = "notpassed";
-	            trainStation = "last";
-	        } else {
-	            trainState = "notpassed";
-	            trainStation = "middle";
-	        }
-	        // Special case train is about to arrive
-	        // if ( initialState != trainState ) {
-	        //     trainState = "arriving";
-	        // }
 
 	        return React.createElement(
 	            'div',
@@ -23191,7 +23197,7 @@
 
 
 	// module
-	exports.push([module.id, ".header {\n  color: #07335e;\n  margin-top: 5em;\n  background-color: #dfe1e5; }\n\n.station-name-passed {\n  color: #979797;\n  font-weight: bold; }\n\n.station-name-general {\n  color: #07335e; }\n\n.time-general {\n  color: #07335e;\n  font-weight: bold; }\n\n.time-passed {\n  color: #979797;\n  font-weight: bold; }\n\n.delayed-time-general {\n  color: #d93d51;\n  font-size: 0.7em; }\n\n.delayed-time-passed {\n  color: #979797;\n  font-size: 0.7em; }\n\n.platform-general {\n  color: #07335e;\n  font-size: 0.7em; }\n\n.platform-passed {\n  color: #979797;\n  font-size: 0.7em; }\n", ""]);
+	exports.push([module.id, ".header {\n  color: #07335e;\n  margin-top: 5em;\n  background-color: #dfe1e5; }\n\n.station-name-passed {\n  color: #979797; }\n\n.station-name-general {\n  color: #07335e; }\n\n.time-general {\n  color: #07335e;\n  font-weight: bold; }\n\n.time-passed {\n  color: #979797;\n  font-weight: bold; }\n\n.delayed-time-general {\n  color: #d93d51;\n  font-size: 0.7em; }\n\n.delayed-time-passed {\n  color: #979797;\n  font-size: 0.7em; }\n\n.platform-general {\n  color: #07335e;\n  font-size: 0.7em; }\n\n.platform-passed {\n  color: #979797;\n  font-size: 0.7em; }\n", ""]);
 
 	// exports
 
