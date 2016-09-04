@@ -97,18 +97,15 @@
 
 	var React = __webpack_require__(8);
 	var ReactDOM = __webpack_require__(41);
-	var Announcement = __webpack_require__(179);
-	var Main = __webpack_require__(196);
-	var TrainSchedule = __webpack_require__(180).configure();
+	var Main = __webpack_require__(179);
 
 	// Load foundation
-	__webpack_require__(201);
+	__webpack_require__(202);
 	$(document).foundation();
 
 	ReactDOM.render(React.createElement(
 	    'div',
 	    null,
-	    React.createElement(Announcement, null),
 	    React.createElement(Main, null)
 	), document.getElementById('app'));
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
@@ -21497,36 +21494,37 @@
 	'use strict';
 
 	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(41);
 
 	var TrainSchedule = __webpack_require__(180).configure();
+	var Announcement = __webpack_require__(196);
+	var Station = __webpack_require__(197);
 
-	var Announcement = React.createClass({
-	    displayName: 'Announcement',
+	var Main = React.createClass({
+	    displayName: 'Main',
 
 	    render: function render() {
 	        var TS = TrainSchedule.getState();
-	        var scheduled = TS.journey.scheduled;
-	        var origin = TS.journey.origin;
-	        var destination = TS.journey.destination;
-
+	        var journey = TS.journey;
+	        var callingPoints = TS.callingPoints;
+	        var trainStation = "initial";
+	        var trainState = "notpassed";
+	        var stationLength = callingPoints.length;
 	        return React.createElement(
 	            'div',
 	            null,
 	            React.createElement(
-	                'h1',
-	                null,
-	                scheduled,
-	                ' ',
-	                origin,
-	                ' to ',
-	                destination
-	            )
+	                'div',
+	                { className: 'announcement' },
+	                React.createElement(Announcement, { journey: journey })
+	            ),
+	            callingPoints.map(function (callingPoint, i, trainStation, trainState, stationLength) {
+	                return React.createElement(Station, { callingpoint: callingPoint, key: i, trainStation: trainStation, trainState: trainState, stationPosition: i, stationLength: stationLength });
+	            })
 	        );
 	    }
 	});
 
-	module.exports = Announcement;
+	module.exports = Main;
 
 /***/ },
 /* 180 */
@@ -22455,72 +22453,30 @@
 	'use strict';
 
 	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(41);
-	var StationTime = __webpack_require__(197);
-	var Station = __webpack_require__(198);
-	var StationPlatform = __webpack_require__(199);
-	var StationOnTime = __webpack_require__(200);
 
-	var TrainSchedule = __webpack_require__(180).configure();
-
-	var Main = React.createClass({
-	    displayName: 'Main',
-
-
-	    buildJourney: function buildJourney() {
-	        var TS = TrainSchedule.getState();
-	        //console.log(TS.callingPoints);
-
-	        var rows = [];
-	        var trainStation = "initial";
-	        var trainState = "notpassed";
-	        for (var i = 0; i < TS.callingPoints.length; i++) {
-	            // Check if train has passed or not and where it is
-	            var initialState = trainState;
-	            if ("actual" in TS.callingPoints[i] && i == 0) {
-	                trainState = "passed";
-	                trainStation = "initial";
-	            } else if ("actual" in TS.callingPoints[i]) {
-	                trainState = "passed";
-	                trainStation = "middle";
-	            } else if (i == TS.callingPoints.length - 1) {
-	                trainState = "notpassed";
-	                trainStation = "last";
-	            } else {
-	                trainState = "notpassed";
-	                trainStation = "middle";
-	            }
-	            // Special case train is about to arrive
-	            if (initialState != trainState) {
-	                trainState = "arriving";
-	            }
-
-	            rows.push(React.createElement(StationTime, { data: TS.callingPoints[i] }));
-
-	            rows.push(React.createElement(Station, { data: TS.callingPoints[i] }));
-
-	            rows.push(React.createElement(StationPlatform, { data: TS.callingPoints[i] }));
-
-	            rows.push(React.createElement(StationOnTime, { data: TS.callingPoints[i] }));
-	        }
-	        return rows;
-	    },
-
-	    currentTime: function currentTime() {
-	        // This function will return the current time (fake time 15:40)
-	        return null;
-	    },
+	var Announcement = React.createClass({
+	    displayName: 'Announcement',
 
 	    render: function render() {
+	        var journey = this.props.journey;
+
 	        return React.createElement(
 	            'div',
 	            null,
-	            this.buildJourney()
+	            React.createElement(
+	                'h1',
+	                null,
+	                journey.scheduled,
+	                ' ',
+	                journey.origin,
+	                ' to ',
+	                journey.destination
+	            )
 	        );
 	    }
 	});
 
-	module.exports = Main;
+	module.exports = Announcement;
 
 /***/ },
 /* 197 */
@@ -22529,52 +22485,72 @@
 	'use strict';
 
 	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(41);
+	var StationTime = __webpack_require__(198);
+	var StationTimeDelayed = __webpack_require__(206);
+	var StationName = __webpack_require__(199);
+	var StationPlatform = __webpack_require__(200);
+	var StationOnTime = __webpack_require__(201);
 
-	var StationTime = React.createClass({
-	    displayName: 'StationTime',
+	var Station = React.createClass({
+	    displayName: 'Station',
 
 	    render: function render() {
-	        var mydata = this.props.data;
+	        // Props we get
+	        var callingPoint = this.props.callingpoint;
+	        var stationPosition = this.props.stationPosition;
+	        var stationLength = this.props.stationLength;
+	        var trainStation = this.props.trainStation;
+	        var trainState = this.props.trainState;
 
-	        if ("actual" in mydata) {
-	            var expectedTime = mydata.actual;
+	        // Check if train has passed or not and where it is
+	        var initialState = trainState;
+	        if ("actual" in callingPoint && stationPosition == 0) {
+	            trainState = "passed";
+	            trainStation = "initial";
+	        } else if ("actual" in callingPoint) {
+	            trainState = "passed";
+	            trainStation = "middle";
+	        } else if (stationPosition == stationLength - 1) {
+	            trainState = "notpassed";
+	            trainStation = "last";
 	        } else {
-	            var expectedTime = mydata.expected;
+	            trainState = "notpassed";
+	            trainStation = "middle";
+	        }
+	        // Special case train is about to arrive
+	        if (initialState != trainState) {
+	            trainState = "arriving";
 	        }
 
-	        var scheduledTime = React.createElement(
-	            'div',
-	            null,
-	            mydata.scheduled
-	        );
-	        if (mydata.scheduled != expectedTime) {
-	            var delayedTime = React.createElement(
-	                'div',
-	                null,
-	                expectedTime
-	            );
-	        } else {
-	            var delayedTime = null;
-	        }
 	        return React.createElement(
 	            'div',
 	            null,
 	            React.createElement(
-	                'h3',
-	                null,
-	                scheduledTime
+	                'div',
+	                { className: 'row' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'small-2 large-2 columns' },
+	                    React.createElement(StationTime, { data: callingPoint, trainState: trainState }),
+	                    React.createElement(StationName, { data: callingPoint, trainState: trainState })
+	                )
 	            ),
 	            React.createElement(
-	                'h5',
-	                null,
-	                delayedTime
+	                'div',
+	                { className: 'row' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'small-2 large-2 columns' },
+	                    React.createElement(StationTimeDelayed, { data: callingPoint, trainState: trainState }),
+	                    React.createElement(StationOnTime, { data: callingPoint, trainState: trainState }),
+	                    React.createElement(StationPlatform, { data: callingPoint, trainState: trainState })
+	                )
 	            )
 	        );
 	    }
 	});
 
-	module.exports = StationTime;
+	module.exports = Station;
 
 /***/ },
 /* 198 */
@@ -22583,10 +22559,42 @@
 	'use strict';
 
 	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(41);
 
-	var Station = React.createClass({
-	    displayName: 'Station',
+	var StationTime = React.createClass({
+	    displayName: 'StationTime',
+
+	    render: function render() {
+	        var mydata = this.props.data;
+
+	        var scheduledTime = React.createElement(
+	            'div',
+	            null,
+	            mydata.scheduled
+	        );
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                'h3',
+	                null,
+	                scheduledTime
+	            )
+	        );
+	    }
+	});
+
+	module.exports = StationTime;
+
+/***/ },
+/* 199 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+
+	var StationName = React.createClass({
+	    displayName: 'StationName',
 
 	    render: function render() {
 	        var mydata = this.props.data;
@@ -22599,19 +22607,18 @@
 	    }
 	});
 
-	module.exports = Station;
+	module.exports = StationName;
 
 /***/ },
-/* 199 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(41);
 
 	var StationPlatform = React.createClass({
-	    displayName: 'StationPlatform',
+	    displayName: "StationPlatform",
 
 	    render: function render() {
 	        var mydata = this.props.data;
@@ -22619,15 +22626,15 @@
 
 	        if (platform === "") {
 	            return React.createElement(
-	                'p',
+	                "p",
 	                null,
-	                'Platform -'
+	                "Platform -"
 	            );
 	        } else {
 	            return React.createElement(
-	                'p',
+	                "p",
 	                null,
-	                'Platform ',
+	                "Platform ",
 	                platform
 	            );
 	        }
@@ -22637,13 +22644,12 @@
 	module.exports = StationPlatform;
 
 /***/ },
-/* 200 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(41);
 
 	var StationOnTime = React.createClass({
 	    displayName: 'StationOnTime',
@@ -22684,16 +22690,16 @@
 	module.exports = StationOnTime;
 
 /***/ },
-/* 201 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(202);
+	var content = __webpack_require__(203);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(204)(content, {});
+	var update = __webpack_require__(205)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -22710,10 +22716,10 @@
 	}
 
 /***/ },
-/* 202 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(203)();
+	exports = module.exports = __webpack_require__(204)();
 	// imports
 
 
@@ -22724,7 +22730,7 @@
 
 
 /***/ },
-/* 203 */
+/* 204 */
 /***/ function(module, exports) {
 
 	/*
@@ -22780,7 +22786,7 @@
 
 
 /***/ },
-/* 204 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -23030,6 +23036,49 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(8);
+
+	var StationTimeDelayed = React.createClass({
+	    displayName: "StationTimeDelayed",
+
+	    render: function render() {
+	        var mydata = this.props.data;
+
+	        if ("actual" in mydata) {
+	            var expectedTime = mydata.actual;
+	        } else {
+	            var expectedTime = mydata.expected;
+	        }
+
+	        if (mydata.scheduled != expectedTime) {
+	            var delayedTime = React.createElement(
+	                "div",
+	                null,
+	                expectedTime
+	            );
+	        } else {
+	            var delayedTime = null;
+	        }
+	        return React.createElement(
+	            "div",
+	            null,
+	            React.createElement(
+	                "h5",
+	                null,
+	                delayedTime
+	            )
+	        );
+	    }
+	});
+
+	module.exports = StationTimeDelayed;
 
 /***/ }
 /******/ ]);

@@ -26,8 +26,11 @@ module.exports = {
             TrainSchedule: 'app/components/TrainSchedule.jsx',
             Announcement: 'app/components/Announcement.jsx',
             StationTime: 'app/components/StationTime.jsx',
+            StationTimeDelayed: 'app/components/StationTimeDelayed.jsx',
             StationOnTime: 'app/components/StationOnTime.jsx',
             StationImage: 'app/components/StationImage.jsx',
+            StationName: 'app/components/StationName.jsx',
+            BuildJourney: 'app/components/BuildJourney.jsx',
             Station: 'app/components/Station.jsx',
             StationPlatform: 'app/components/StationPlatform.jsx'
         },
