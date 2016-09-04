@@ -6,7 +6,7 @@ var StationPlatform = React.createClass({
         var mydata = this.props.data;
         var platform = mydata.platform;
 
-        if (platform === "") {
+        if ( platform === "" ) {
             return <p>Platform -</p>;
         } else {
             return <p>Platform {platform}</p>;

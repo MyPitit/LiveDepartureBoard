@@ -5,16 +5,22 @@ var StationTime = React.createClass({
     render: function () {
         var mydata = this.props.data;
 
-        var scheduledTime = <div>{mydata.scheduled}</div>;
-        if (mydata.scheduled != mydata.expected) {
-            var expectedTime = <div>{mydata.expected}</div>;
+        if ( "actual" in mydata ) {
+            var expectedTime = mydata.actual;
         } else {
-            var expectedTime = null;
+            var expectedTime = mydata.expected;
+        }
+
+        var scheduledTime = <div>{mydata.scheduled}</div>;
+        if ( mydata.scheduled != expectedTime ) {
+            var delayedTime = <div>{expectedTime}</div>;
+        } else {
+            var delayedTime = null;
         }
         return (
             <div>
                 <h3>{scheduledTime}</h3>
-                <h5>{expectedTime}</h5>
+                <h5>{delayedTime}</h5>
             </div>
         );
     }
