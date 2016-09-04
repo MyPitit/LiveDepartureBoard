@@ -18,10 +18,10 @@ var StationOnTime = React.createClass({
 
             var diff = timeExpected.getTime() - timeScheduled.getTime();
 
-            return <p>{diff/60000} min late</p>;
+            return <div>{diff/60000} min late</div>;
 
         } else {
-            return <p>On time</p>;
+            return <div>On time</div>;
         }
     }
 });

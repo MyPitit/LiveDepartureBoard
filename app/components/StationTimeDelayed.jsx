@@ -13,11 +13,11 @@ var StationTimeDelayed = React.createClass({
         if ( mydata.scheduled != expectedTime ) {
             var delayedTime = <div>{expectedTime}</div>;
         } else {
-            var delayedTime = null;
+            var delayedTime = <div>&nbsp;</div>;
         }
         return (
             <div>
-                <h5>{delayedTime}</h5>
+                {delayedTime}
             </div>
         );
     }

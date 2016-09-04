@@ -100,7 +100,7 @@
 	var Main = __webpack_require__(179);
 
 	// Load foundation
-	__webpack_require__(202);
+	__webpack_require__(203);
 	$(document).foundation();
 
 	ReactDOM.render(React.createElement(
@@ -22450,27 +22450,31 @@
 /* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var React = __webpack_require__(8);
 
 	var Announcement = React.createClass({
-	    displayName: 'Announcement',
+	    displayName: "Announcement",
 
 	    render: function render() {
 	        var journey = this.props.journey;
 
 	        return React.createElement(
-	            'div',
-	            null,
+	            "div",
+	            { className: "row" },
 	            React.createElement(
-	                'h1',
-	                null,
-	                journey.scheduled,
-	                ' ',
-	                journey.origin,
-	                ' to ',
-	                journey.destination
+	                "div",
+	                { className: "columns small-6 small-centered" },
+	                React.createElement(
+	                    "h6",
+	                    { className: "text-center" },
+	                    journey.scheduled,
+	                    " ",
+	                    journey.origin,
+	                    " to ",
+	                    journey.destination
+	                )
 	            )
 	        );
 	    }
@@ -22486,10 +22490,10 @@
 
 	var React = __webpack_require__(8);
 	var StationTime = __webpack_require__(198);
-	var StationTimeDelayed = __webpack_require__(206);
-	var StationName = __webpack_require__(199);
-	var StationPlatform = __webpack_require__(200);
-	var StationOnTime = __webpack_require__(201);
+	var StationTimeDelayed = __webpack_require__(199);
+	var StationName = __webpack_require__(200);
+	var StationPlatform = __webpack_require__(201);
+	var StationOnTime = __webpack_require__(202);
 
 	var Station = React.createClass({
 	    displayName: 'Station',
@@ -22530,9 +22534,22 @@
 	                { className: 'row' },
 	                React.createElement(
 	                    'div',
-	                    { className: 'small-2 large-2 columns' },
-	                    React.createElement(StationTime, { data: callingPoint, trainState: trainState }),
-	                    React.createElement(StationName, { data: callingPoint, trainState: trainState })
+	                    { className: 'columns small-6 small-centered' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'columns small-2' },
+	                        React.createElement(StationTime, { data: callingPoint, trainState: trainState })
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'columns small-2' },
+	                        ' '
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'columns small-8' },
+	                        React.createElement(StationName, { data: callingPoint, trainState: trainState })
+	                    )
 	                )
 	            ),
 	            React.createElement(
@@ -22540,10 +22557,27 @@
 	                { className: 'row' },
 	                React.createElement(
 	                    'div',
-	                    { className: 'small-2 large-2 columns' },
-	                    React.createElement(StationTimeDelayed, { data: callingPoint, trainState: trainState }),
-	                    React.createElement(StationOnTime, { data: callingPoint, trainState: trainState }),
-	                    React.createElement(StationPlatform, { data: callingPoint, trainState: trainState })
+	                    { className: 'columns small-6 small-centered' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'columns small-2' },
+	                        React.createElement(StationTimeDelayed, { data: callingPoint, trainState: trainState })
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'columns small-2' },
+	                        ' '
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'columns small-5' },
+	                        React.createElement(StationOnTime, { data: callingPoint, trainState: trainState })
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'columns small-3' },
+	                        React.createElement(StationPlatform, { data: callingPoint, trainState: trainState })
+	                    )
 	                )
 	            )
 	        );
@@ -22574,11 +22608,7 @@
 	        return React.createElement(
 	            'div',
 	            null,
-	            React.createElement(
-	                'h3',
-	                null,
-	                scheduledTime
-	            )
+	            scheduledTime
 	        );
 	    }
 	});
@@ -22589,19 +22619,62 @@
 /* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
+
+	var React = __webpack_require__(8);
+
+	var StationTimeDelayed = React.createClass({
+	    displayName: "StationTimeDelayed",
+
+	    render: function render() {
+	        var mydata = this.props.data;
+
+	        if ("actual" in mydata) {
+	            var expectedTime = mydata.actual;
+	        } else {
+	            var expectedTime = mydata.expected;
+	        }
+
+	        if (mydata.scheduled != expectedTime) {
+	            var delayedTime = React.createElement(
+	                "div",
+	                null,
+	                expectedTime
+	            );
+	        } else {
+	            var delayedTime = React.createElement(
+	                "div",
+	                null,
+	                " "
+	            );
+	        }
+	        return React.createElement(
+	            "div",
+	            null,
+	            delayedTime
+	        );
+	    }
+	});
+
+	module.exports = StationTimeDelayed;
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 
 	var React = __webpack_require__(8);
 
 	var StationName = React.createClass({
-	    displayName: 'StationName',
+	    displayName: "StationName",
 
 	    render: function render() {
 	        var mydata = this.props.data;
 	        var stationName = mydata.station;
 	        return React.createElement(
-	            'h1',
-	            null,
+	            "h6",
+	            { className: "text-left" },
 	            stationName
 	        );
 	    }
@@ -22610,7 +22683,7 @@
 	module.exports = StationName;
 
 /***/ },
-/* 200 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22626,13 +22699,13 @@
 
 	        if (platform === "") {
 	            return React.createElement(
-	                "p",
+	                "div",
 	                null,
 	                "Platform -"
 	            );
 	        } else {
 	            return React.createElement(
-	                "p",
+	                "div",
 	                null,
 	                "Platform ",
 	                platform
@@ -22644,7 +22717,7 @@
 	module.exports = StationPlatform;
 
 /***/ },
-/* 201 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22672,14 +22745,14 @@
 	            var diff = timeExpected.getTime() - timeScheduled.getTime();
 
 	            return React.createElement(
-	                'p',
+	                'div',
 	                null,
 	                diff / 60000,
 	                ' min late'
 	            );
 	        } else {
 	            return React.createElement(
-	                'p',
+	                'div',
 	                null,
 	                'On time'
 	            );
@@ -22690,16 +22763,16 @@
 	module.exports = StationOnTime;
 
 /***/ },
-/* 202 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(203);
+	var content = __webpack_require__(204);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(205)(content, {});
+	var update = __webpack_require__(206)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -22716,10 +22789,10 @@
 	}
 
 /***/ },
-/* 203 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(204)();
+	exports = module.exports = __webpack_require__(205)();
 	// imports
 
 
@@ -22730,7 +22803,7 @@
 
 
 /***/ },
-/* 204 */
+/* 205 */
 /***/ function(module, exports) {
 
 	/*
@@ -22786,7 +22859,7 @@
 
 
 /***/ },
-/* 205 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -23036,49 +23109,6 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
-
-/***/ },
-/* 206 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(8);
-
-	var StationTimeDelayed = React.createClass({
-	    displayName: "StationTimeDelayed",
-
-	    render: function render() {
-	        var mydata = this.props.data;
-
-	        if ("actual" in mydata) {
-	            var expectedTime = mydata.actual;
-	        } else {
-	            var expectedTime = mydata.expected;
-	        }
-
-	        if (mydata.scheduled != expectedTime) {
-	            var delayedTime = React.createElement(
-	                "div",
-	                null,
-	                expectedTime
-	            );
-	        } else {
-	            var delayedTime = null;
-	        }
-	        return React.createElement(
-	            "div",
-	            null,
-	            React.createElement(
-	                "h5",
-	                null,
-	                delayedTime
-	            )
-	        );
-	    }
-	});
-
-	module.exports = StationTimeDelayed;
 
 /***/ }
 /******/ ]);

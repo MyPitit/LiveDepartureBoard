@@ -37,16 +37,32 @@ var Station = React.createClass({
         return (
             <div>
                 <div className="row">
-                    <div className="small-2 large-2 columns">
-                        <StationTime data={callingPoint} trainState={trainState} />
-                        <StationName data={callingPoint} trainState={trainState} />
+                    <div className="columns small-6 small-centered">
+                        <div className="columns small-2">
+                            <StationTime data={callingPoint} trainState={trainState} />
+                        </div>
+                        <div className="columns small-2">
+                            &nbsp;
+                        </div>
+                        <div className="columns small-8">
+                            <StationName data={callingPoint} trainState={trainState} />
+                        </div>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="small-2 large-2 columns">
-                        <StationTimeDelayed data={callingPoint} trainState={trainState} />
-                        <StationOnTime data={callingPoint} trainState={trainState} />
-                        <StationPlatform data={callingPoint} trainState={trainState} />
+                    <div className="columns small-6 small-centered">
+                        <div className="columns small-2">
+                            <StationTimeDelayed data={callingPoint} trainState={trainState} />
+                        </div>
+                        <div className="columns small-2">
+                            &nbsp;
+                        </div>
+                        <div className="columns small-5">
+                            <StationOnTime data={callingPoint} trainState={trainState} />
+                        </div>
+                        <div className="columns small-3">
+                            <StationPlatform data={callingPoint} trainState={trainState} />
+                        </div>
                     </div>
                 </div>
             </div>

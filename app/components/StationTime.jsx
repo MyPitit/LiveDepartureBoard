@@ -7,7 +7,7 @@ var StationTime = React.createClass({
         var scheduledTime = <div>{mydata.scheduled}</div>;
         return (
             <div>
-                <h3>{scheduledTime}</h3>
+                {scheduledTime}
             </div>
         );
     }

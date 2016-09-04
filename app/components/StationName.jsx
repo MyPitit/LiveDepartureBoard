@@ -5,7 +5,7 @@ var StationName = React.createClass({
         var mydata = this.props.data;
         var stationName = mydata.station;
         return (
-            <h1>{stationName}</h1>
+            <h6 className="text-left">{stationName}</h6>
         );
     }
 });

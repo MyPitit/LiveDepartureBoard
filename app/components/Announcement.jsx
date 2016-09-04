@@ -5,10 +5,10 @@ var Announcement = React.createClass({
         var journey = this.props.journey;
 
         return (
-            <div>
-                <h1>
-                    {journey.scheduled} {journey.origin} to {journey.destination}
-                </h1>
+            <div className="row">
+                <div className="columns small-6 small-centered">
+                    <h6 className="text-center">{journey.scheduled} {journey.origin} to {journey.destination}</h6>
+                </div>
             </div>
         );
     }
