@@ -1,0 +1,53 @@
+$headerColor: #07335e;
+$headerBackground: #dfe1e5;
+$headerTopSpace: 5em;
+$trainPassed: #979797;
+$generalFonts: #07335e;
+$lateFonts: #d93d51;
+$fontSmall: 0.7em;
+$fontWeight: bold;
+
+.header {
+    color: $headerColor;
+    margin-top: $headerTopSpace;
+    background-color: $headerBackground;
+}
+
+// StationName
+.station-name-passed {
+    color: $trainPassed;
+    font-weight: $fontWeight;
+}
+.station-name-general {
+    color: $generalFonts;
+}
+
+// Time
+.time-general {
+    color: $generalFonts;
+    font-weight: $fontWeight;
+}
+.time-passed {
+    color: $trainPassed;
+    font-weight: $fontWeight;
+}
+
+// DelayedTime
+.delayed-time-general {
+    color: $lateFonts;
+    font-size: $fontSmall;
+}
+.delayed-time-passed {
+    color: $trainPassed;
+    font-size: $fontSmall;
+}
+
+// Platform
+.platform-general {
+    color: $generalFonts;
+    font-size: $fontSmall;
+}
+.platform-passed {
+    color: $trainPassed;
+    font-size: $fontSmall;
+}

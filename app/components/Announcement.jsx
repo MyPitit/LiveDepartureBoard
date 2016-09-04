@@ -7,7 +7,7 @@ var Announcement = React.createClass({
         return (
             <div className="row">
                 <div className="columns small-6 small-centered">
-                    <h6 className="text-center">{journey.scheduled} {journey.origin} to {journey.destination}</h6>
+                    <h6 className="text-center header"><strong>{journey.scheduled}</strong> {journey.origin} to {journey.destination}</h6>
                 </div>
             </div>
         );

@@ -32,7 +32,8 @@ module.exports = {
             StationName: 'app/components/StationName.jsx',
             BuildJourney: 'app/components/BuildJourney.jsx',
             Station: 'app/components/Station.jsx',
-            StationPlatform: 'app/components/StationPlatform.jsx'
+            StationPlatform: 'app/components/StationPlatform.jsx',
+            applicationStyles: 'app/styles/app.scss'
         },
         extensions: ['', '.js', '.jsx']
     },

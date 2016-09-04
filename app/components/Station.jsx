@@ -30,9 +30,9 @@ var Station = React.createClass({
             trainStation = "middle";
         }
         // Special case train is about to arrive
-        if ( initialState != trainState ) {
-            trainState = "arriving";
-        }
+        // if ( initialState != trainState ) {
+        //     trainState = "arriving";
+        // }
 
         return (
             <div>

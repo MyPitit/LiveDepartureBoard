@@ -103,6 +103,9 @@
 	__webpack_require__(203);
 	$(document).foundation();
 
+	// App css
+	__webpack_require__(207);
+
 	ReactDOM.render(React.createElement(
 	    'div',
 	    null,
@@ -22468,8 +22471,12 @@
 	                { className: "columns small-6 small-centered" },
 	                React.createElement(
 	                    "h6",
-	                    { className: "text-center" },
-	                    journey.scheduled,
+	                    { className: "text-center header" },
+	                    React.createElement(
+	                        "strong",
+	                        null,
+	                        journey.scheduled
+	                    ),
 	                    " ",
 	                    journey.origin,
 	                    " to ",
@@ -22522,9 +22529,9 @@
 	            trainStation = "middle";
 	        }
 	        // Special case train is about to arrive
-	        if (initialState != trainState) {
-	            trainState = "arriving";
-	        }
+	        // if ( initialState != trainState ) {
+	        //     trainState = "arriving";
+	        // }
 
 	        return React.createElement(
 	            'div',
@@ -22590,24 +22597,31 @@
 /* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var React = __webpack_require__(8);
 
 	var StationTime = React.createClass({
-	    displayName: 'StationTime',
+	    displayName: "StationTime",
 
 	    render: function render() {
 	        var mydata = this.props.data;
+	        var trainState = this.props.trainState;
+
+	        if (trainState == "notpassed" || trainState == "arriving") {
+	            var timeStyle = "text-right time-general";
+	        } else {
+	            var timeStyle = "text-right time-passed";
+	        }
 
 	        var scheduledTime = React.createElement(
-	            'div',
+	            "div",
 	            null,
 	            mydata.scheduled
 	        );
 	        return React.createElement(
-	            'div',
-	            null,
+	            "div",
+	            { className: timeStyle },
 	            scheduledTime
 	        );
 	    }
@@ -22628,6 +22642,13 @@
 
 	    render: function render() {
 	        var mydata = this.props.data;
+	        var trainState = this.props.trainState;
+
+	        if (trainState == "notpassed" || trainState == "arriving") {
+	            var delayedTimeStyle = "text-right delayed-time-general";
+	        } else {
+	            var delayedTimeStyle = "text-right delayed-time-passed";
+	        }
 
 	        if ("actual" in mydata) {
 	            var expectedTime = mydata.actual;
@@ -22650,7 +22671,7 @@
 	        }
 	        return React.createElement(
 	            "div",
-	            null,
+	            { className: delayedTimeStyle },
 	            delayedTime
 	        );
 	    }
@@ -22672,9 +22693,17 @@
 	    render: function render() {
 	        var mydata = this.props.data;
 	        var stationName = mydata.station;
+	        var trainState = this.props.trainState;
+
+	        if (trainState == "notpassed" || trainState == "arriving") {
+	            var stationStyle = "text-left station-name-general";
+	        } else {
+	            var stationStyle = "text-left station-name-passed";
+	        }
+
 	        return React.createElement(
 	            "h6",
-	            { className: "text-left" },
+	            { className: stationStyle },
 	            stationName
 	        );
 	    }
@@ -22696,19 +22725,30 @@
 	    render: function render() {
 	        var mydata = this.props.data;
 	        var platform = mydata.platform;
+	        var trainState = this.props.trainState;
+
+	        if (trainState == "notpassed" || trainState == "arriving") {
+	            var stationPlatform = "text-left platform-general";
+	        } else {
+	            var stationPlatform = "text-left platform-passed";
+	        }
 
 	        if (platform === "") {
 	            return React.createElement(
 	                "div",
-	                null,
+	                { className: stationPlatform },
 	                "Platform -"
 	            );
 	        } else {
 	            return React.createElement(
 	                "div",
-	                null,
+	                { className: stationPlatform },
 	                "Platform ",
-	                platform
+	                React.createElement(
+	                    "strong",
+	                    null,
+	                    platform
+	                )
 	            );
 	        }
 	    }
@@ -22720,17 +22760,23 @@
 /* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var React = __webpack_require__(8);
 
 	var StationOnTime = React.createClass({
-	    displayName: 'StationOnTime',
+	    displayName: "StationOnTime",
 
 	    render: function render() {
 	        var mydata = this.props.data;
-
 	        var scheduledTime = mydata.scheduled;
+	        var trainState = this.props.trainState;
+
+	        if (trainState == "notpassed" || trainState == "arriving") {
+	            var stationOnTimeStyle = "text-left delayed-time-general";
+	        } else {
+	            var stationOnTimeStyle = "text-left delayed-time-passed";
+	        }
 
 	        if ("actual" in mydata) {
 	            var expectedTime = mydata.actual;
@@ -22745,16 +22791,16 @@
 	            var diff = timeExpected.getTime() - timeScheduled.getTime();
 
 	            return React.createElement(
-	                'div',
-	                null,
+	                "div",
+	                { className: stationOnTimeStyle },
 	                diff / 60000,
-	                ' min late'
+	                " min late"
 	            );
 	        } else {
 	            return React.createElement(
-	                'div',
-	                null,
-	                'On time'
+	                "div",
+	                { className: stationOnTimeStyle },
+	                "On time"
 	            );
 	        }
 	    }
@@ -23108,6 +23154,46 @@
 		if(oldSrc)
 			URL.revokeObjectURL(oldSrc);
 	}
+
+
+/***/ },
+/* 207 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(208);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(206)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./app.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./app.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 208 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(205)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".header {\n  color: #07335e;\n  margin-top: 5em;\n  background-color: #dfe1e5; }\n\n.station-name-passed {\n  color: #979797;\n  font-weight: bold; }\n\n.station-name-general {\n  color: #07335e; }\n\n.time-general {\n  color: #07335e;\n  font-weight: bold; }\n\n.time-passed {\n  color: #979797;\n  font-weight: bold; }\n\n.delayed-time-general {\n  color: #d93d51;\n  font-size: 0.7em; }\n\n.delayed-time-passed {\n  color: #979797;\n  font-size: 0.7em; }\n\n.platform-general {\n  color: #07335e;\n  font-size: 0.7em; }\n\n.platform-passed {\n  color: #979797;\n  font-size: 0.7em; }\n", ""]);
+
+	// exports
 
 
 /***/ }
