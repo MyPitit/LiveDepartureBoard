@@ -11,41 +11,35 @@ var Main = React.createClass({
         var journey = TS.journey;
         var callingPoints = TS.callingPoints;
         var stationLength = callingPoints.length;
-        var trainStation = "initial";
-        if ( "actual" in callingPoints[0] ) {
-            var trainState = "passed";
-        } else {
-            var trainState = "notpassed";
-        }
         return (
             <div>
                 <div className="announcement">
                     <Announcement journey={journey} />
                 </div>
                 {callingPoints.map(function(callingPoint, i){
-                    if ( trainState == "arriving" ) {
-                        var initialState = "notpassed";
-                    } else {
-                        var initialState = trainState;
-                    }
                     if ( "actual" in callingPoint && i == 0) {
-                        trainState = "passed";
-                        trainStation = "initial";
+                        var trainState = "passed";
+                        var trainStation = "initial";
                     } else if ( "actual" in callingPoint ) {
-                        trainState = "passed";
-                        trainStation = "middle";
+                        var trainState = "passed";
+                        var trainStation = "middle";
                     } else if ( i == (callingPoints.length - 1) ) {
-                        trainState = "notpassed";
-                        trainStation = "last";
+                        var trainState = "notpassed";
+                        var trainStation = "last";
                     } else {
-                        trainState = "notpassed";
-                        trainStation = "middle";
+                        var trainState = "notpassed";
+                        var trainStation = "middle";
                     }
                     // Special case train is about to arrive
-                    if ( initialState != trainState ) {
-                        trainState = "arriving";
+                    if ( i == (callingPoints.length - 1 ) ) {
+                        var nextCallingPoint = i;
+                    } else {
+                        var nextCallingPoint = i + 1;
                     }
-                    // console.log("For station " + callingPoint.station + " we pass " + trainState + ":" + trainStation);
+                    if ( callingPoints[nextCallingPoint].actual == undefined && trainState == "passed" ) {
+                        var trainState = "justdeparted";
+                    }
+                    console.log("For station " + callingPoint.station + " we pass " + trainState + ":" + trainStation);
                     return <Station callingpoint={callingPoint} key={i} trainState={trainState} trainStation={trainStation} />;
                 })}
             </div>

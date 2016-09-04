@@ -5,7 +5,7 @@ var StationTimeDelayed = React.createClass({
         var mydata = this.props.data;
         var trainState = this.props.trainState;
 
-        if ( trainState == "notpassed" || trainState == "arriving" ) {
+        if ( trainState == "notpassed" ) {
             var delayedTimeStyle = "text-right delayed-time-general";
         } else {
             var delayedTimeStyle = "text-right delayed-time-passed";

@@ -6,7 +6,7 @@ var StationName = React.createClass({
         var stationName = mydata.station;
         var trainState = this.props.trainState;
 
-        if ( trainState == "notpassed" || trainState == "arriving" ) {
+        if ( trainState == "notpassed" ) {
             var stationStyle = "text-left station-name-general";
         } else {
             var stationStyle = "text-left station-name-passed";

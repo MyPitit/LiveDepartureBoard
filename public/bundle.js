@@ -100,11 +100,11 @@
 	var Main = __webpack_require__(179);
 
 	// Load foundation
-	__webpack_require__(203);
+	__webpack_require__(205);
 	$(document).foundation();
 
 	// App css
-	__webpack_require__(207);
+	__webpack_require__(209);
 
 	ReactDOM.render(React.createElement(
 	    'div',
@@ -21511,12 +21511,6 @@
 	        var journey = TS.journey;
 	        var callingPoints = TS.callingPoints;
 	        var stationLength = callingPoints.length;
-	        var trainStation = "initial";
-	        if ("actual" in callingPoints[0]) {
-	            var trainState = "passed";
-	        } else {
-	            var trainState = "notpassed";
-	        }
 	        return React.createElement(
 	            'div',
 	            null,
@@ -21526,29 +21520,29 @@
 	                React.createElement(Announcement, { journey: journey })
 	            ),
 	            callingPoints.map(function (callingPoint, i) {
-	                if (trainState == "arriving") {
-	                    var initialState = "notpassed";
-	                } else {
-	                    var initialState = trainState;
-	                }
 	                if ("actual" in callingPoint && i == 0) {
-	                    trainState = "passed";
-	                    trainStation = "initial";
+	                    var trainState = "passed";
+	                    var trainStation = "initial";
 	                } else if ("actual" in callingPoint) {
-	                    trainState = "passed";
-	                    trainStation = "middle";
+	                    var trainState = "passed";
+	                    var trainStation = "middle";
 	                } else if (i == callingPoints.length - 1) {
-	                    trainState = "notpassed";
-	                    trainStation = "last";
+	                    var trainState = "notpassed";
+	                    var trainStation = "last";
 	                } else {
-	                    trainState = "notpassed";
-	                    trainStation = "middle";
+	                    var trainState = "notpassed";
+	                    var trainStation = "middle";
 	                }
 	                // Special case train is about to arrive
-	                if (initialState != trainState) {
-	                    trainState = "arriving";
+	                if (i == callingPoints.length - 1) {
+	                    var nextCallingPoint = i;
+	                } else {
+	                    var nextCallingPoint = i + 1;
 	                }
-	                // console.log("For station " + callingPoint.station + " we pass " + trainState + ":" + trainStation);
+	                if (callingPoints[nextCallingPoint].actual == undefined && trainState == "passed") {
+	                    var trainState = "justdeparted";
+	                }
+	                console.log("For station " + callingPoint.station + " we pass " + trainState + ":" + trainStation);
 	                return React.createElement(Station, { callingpoint: callingPoint, key: i, trainState: trainState, trainStation: trainStation });
 	            })
 	        );
@@ -22529,6 +22523,8 @@
 	var StationName = __webpack_require__(200);
 	var StationPlatform = __webpack_require__(201);
 	var StationOnTime = __webpack_require__(202);
+	var StationImage = __webpack_require__(203);
+	var StationBetweenImage = __webpack_require__(204);
 
 	var Station = React.createClass({
 	    displayName: 'Station',
@@ -22556,7 +22552,7 @@
 	                    React.createElement(
 	                        'div',
 	                        { className: 'columns small-2' },
-	                        ' '
+	                        React.createElement(StationImage, { trainStation: trainStation, trainState: trainState })
 	                    ),
 	                    React.createElement(
 	                        'div',
@@ -22579,7 +22575,7 @@
 	                    React.createElement(
 	                        'div',
 	                        { className: 'columns small-2' },
-	                        ' '
+	                        React.createElement(StationBetweenImage, { trainStation: trainStation, trainState: trainState })
 	                    ),
 	                    React.createElement(
 	                        'div',
@@ -22614,7 +22610,7 @@
 	        var mydata = this.props.data;
 	        var trainState = this.props.trainState;
 
-	        if (trainState == "notpassed" || trainState == "arriving") {
+	        if (trainState == "notpassed") {
 	            var timeStyle = "text-right time-general";
 	        } else {
 	            var timeStyle = "text-right time-passed";
@@ -22650,7 +22646,7 @@
 	        var mydata = this.props.data;
 	        var trainState = this.props.trainState;
 
-	        if (trainState == "notpassed" || trainState == "arriving") {
+	        if (trainState == "notpassed") {
 	            var delayedTimeStyle = "text-right delayed-time-general";
 	        } else {
 	            var delayedTimeStyle = "text-right delayed-time-passed";
@@ -22701,7 +22697,7 @@
 	        var stationName = mydata.station;
 	        var trainState = this.props.trainState;
 
-	        if (trainState == "notpassed" || trainState == "arriving") {
+	        if (trainState == "notpassed") {
 	            var stationStyle = "text-left station-name-general";
 	        } else {
 	            var stationStyle = "text-left station-name-passed";
@@ -22733,7 +22729,7 @@
 	        var platform = mydata.platform;
 	        var trainState = this.props.trainState;
 
-	        if (trainState == "notpassed" || trainState == "arriving") {
+	        if (trainState == "notpassed") {
 	            var stationPlatform = "text-left platform-general";
 	        } else {
 	            var stationPlatform = "text-left platform-passed";
@@ -22778,7 +22774,7 @@
 	        var scheduledTime = mydata.scheduled;
 	        var trainState = this.props.trainState;
 
-	        if (trainState == "notpassed" || trainState == "arriving") {
+	        if (trainState == "notpassed") {
 	            var stationOnTimeStyle = "text-left delayed-time-general";
 	        } else {
 	            var stationOnTimeStyle = "text-left delayed-time-passed";
@@ -22818,13 +22814,53 @@
 /* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var React = __webpack_require__(8);
+
+	var StationImage = React.createClass({
+	    displayName: 'StationImage',
+
+	    render: function render() {
+	        var trainStation = this.props.trainStation;
+	        var trainState = this.props.trainState;
+	        return null;
+	    }
+	});
+
+	module.exports = StationImage;
+
+/***/ },
+/* 204 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+
+	var StationBetweenImage = React.createClass({
+	    displayName: 'StationBetweenImage',
+
+	    render: function render() {
+	        var trainStation = this.props.trainStation;
+	        var trainState = this.props.trainState;
+	        return null;
+	    }
+	});
+
+	module.exports = StationBetweenImage;
+
+/***/ },
+/* 205 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(204);
+	var content = __webpack_require__(206);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(206)(content, {});
+	var update = __webpack_require__(208)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -22841,10 +22877,10 @@
 	}
 
 /***/ },
-/* 204 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(205)();
+	exports = module.exports = __webpack_require__(207)();
 	// imports
 
 
@@ -22855,7 +22891,7 @@
 
 
 /***/ },
-/* 205 */
+/* 207 */
 /***/ function(module, exports) {
 
 	/*
@@ -22911,7 +22947,7 @@
 
 
 /***/ },
-/* 206 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -23163,16 +23199,16 @@
 
 
 /***/ },
-/* 207 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(208);
+	var content = __webpack_require__(210);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(206)(content, {});
+	var update = __webpack_require__(208)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -23189,10 +23225,10 @@
 	}
 
 /***/ },
-/* 208 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(205)();
+	exports = module.exports = __webpack_require__(207)();
 	// imports
 
 

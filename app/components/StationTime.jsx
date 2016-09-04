@@ -5,7 +5,7 @@ var StationTime = React.createClass({
         var mydata = this.props.data;
         var trainState = this.props.trainState;
 
-        if ( trainState == "notpassed" || trainState == "arriving" ) {
+        if ( trainState == "notpassed" ) {
             var timeStyle = "text-right time-general";
         } else {
             var timeStyle = "text-right time-passed";

@@ -29,6 +29,7 @@ module.exports = {
             StationTimeDelayed: 'app/components/StationTimeDelayed.jsx',
             StationOnTime: 'app/components/StationOnTime.jsx',
             StationImage: 'app/components/StationImage.jsx',
+            StationBetweenImage: 'app/components/StationBetweenImage.jsx',
             StationName: 'app/components/StationName.jsx',
             BuildJourney: 'app/components/BuildJourney.jsx',
             Station: 'app/components/Station.jsx',

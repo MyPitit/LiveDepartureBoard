@@ -1,6 +1,6 @@
 var React = require('react');
 
-var StationImage = React.createClass({
+var StationBetweenImage = React.createClass({
     render: function () {
         var trainStation = this.props.trainStation;
         var trainState = this.props.trainState;
@@ -8,4 +8,4 @@ var StationImage = React.createClass({
     }
 });
 
-module.exports = StationImage;
+module.exports = StationBetweenImage;

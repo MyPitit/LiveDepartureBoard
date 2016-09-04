@@ -6,7 +6,7 @@ var StationPlatform = React.createClass({
         var platform = mydata.platform;
         var trainState = this.props.trainState;
 
-        if ( trainState == "notpassed" || trainState == "arriving" ) {
+        if ( trainState == "notpassed" ) {
             var stationPlatform = "text-left platform-general";
         } else {
             var stationPlatform = "text-left platform-passed";

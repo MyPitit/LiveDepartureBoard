@@ -4,6 +4,8 @@ var StationTimeDelayed = require('StationTimeDelayed');
 var StationName = require('StationName');
 var StationPlatform = require('StationPlatform');
 var StationOnTime = require('StationOnTime');
+var StationImage = require('StationImage');
+var StationBetweenImage = require('StationBetweenImage');
 
 var Station = React.createClass({
     render: function () {
@@ -20,7 +22,7 @@ var Station = React.createClass({
                             <StationTime data={callingPoint} trainState={trainState} />
                         </div>
                         <div className="columns small-2">
-                            &nbsp;
+                            <StationImage trainStation={trainStation} trainState={trainState} />
                         </div>
                         <div className="columns small-8">
                             <StationName data={callingPoint} trainState={trainState} />
@@ -33,7 +35,7 @@ var Station = React.createClass({
                             <StationTimeDelayed data={callingPoint} trainState={trainState} />
                         </div>
                         <div className="columns small-2">
-                            &nbsp;
+                            <StationBetweenImage trainStation={trainStation} trainState={trainState} />
                         </div>
                         <div className="columns small-5">
                             <StationOnTime data={callingPoint} trainState={trainState} />

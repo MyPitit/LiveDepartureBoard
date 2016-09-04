@@ -6,7 +6,7 @@ var StationOnTime = React.createClass({
         var scheduledTime = mydata.scheduled;
         var trainState = this.props.trainState;
 
-        if ( trainState == "notpassed" || trainState == "arriving" ) {
+        if ( trainState == "notpassed" ) {
             var stationOnTimeStyle = "text-left delayed-time-general";
         } else {
             var stationOnTimeStyle = "text-left delayed-time-passed";
