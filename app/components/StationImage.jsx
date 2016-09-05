@@ -11,7 +11,6 @@ var StationImage = React.createClass({
             var myTrainState = trainState;
         }
         var imageName = "images/" + trainStation + "-" + myTrainState + ".png";
-        console.log(imageName);
         return (
             <img src={imageName}></img>
         );

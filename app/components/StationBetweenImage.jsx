@@ -6,8 +6,6 @@ var StationBetweenImage = React.createClass({
         var trainState = this.props.trainState;
         if ( trainStation != "last" ) {
             var imageName = "images/transit-" + trainState + ".png";
-            console.log(imageName);
-
             return (
                 <img src={imageName}></img>
             );
