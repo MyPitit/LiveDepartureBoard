@@ -49,10 +49,6 @@ This is a simple `React and Redux` application, mocking a supplied live departur
 
 ### How to run this application
 
-If you wish to see this application running in live, click [here]().
-
-#### To run this application in your local...
-
 + In your terminal type:
 `$ git clone git@github.com:MyPitit/LiveDepartureBoard.git`
 
@@ -60,12 +56,12 @@ If you wish to see this application running in live, click [here]().
 `$ npm install`
 
 + Run webpack:
-`$ webpack` or `$ webpack -w`
+`$ webpack` or `$ webpack -w` if you want to keep refreshing
 
 + In another tab run the server:
 `$ node server.js`
 
-+ Now open a new tab in your browser and visit: 
++ Now open a new tab in your browser and visit:
 `http://localhost:3000/`
 
 #### Tests
