@@ -23,7 +23,7 @@ module.exports = {
         root: __dirname,
         alias: {
             Main: 'app/components/Main.jsx',
-            TrainSchedule: 'app/components/TrainSchedule.jsx',
+            TrainSchedule: 'app/components/TrainSchedule.js',
             Announcement: 'app/components/Announcement.jsx',
             StationTime: 'app/components/StationTime.jsx',
             StationTimeDelayed: 'app/components/StationTimeDelayed.jsx',
