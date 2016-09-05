@@ -11,7 +11,7 @@ var StationTime = React.createClass({
             var timeStyle = "text-right time-passed";
         }
 
-        var scheduledTime = <div>{mydata.scheduled}</div>;
+        var scheduledTime = mydata.scheduled;
         return (
             <div className={timeStyle}>
                 {scheduledTime}
