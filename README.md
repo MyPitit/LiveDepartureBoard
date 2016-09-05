@@ -47,6 +47,16 @@ This is a simple `React and Redux` application, mocking a supplied live departur
 ```
 ![appcomponents](https://cloud.githubusercontent.com/assets/2573931/18224558/68d8a200-71d1-11e6-967a-b07886808d77.png)
 
+### Languages and tools
++ JavaScript
++ React
++ Redux
++ Karma, mocha and Istanbul for testing
++ Webpack
++ Node, Express
++ Babel
++ Foundation and SASS
+
 ### How to run this application
 
 + In your terminal type:
@@ -63,6 +73,9 @@ This is a simple `React and Redux` application, mocking a supplied live departur
 
 + Now open a new tab in your browser and visit:
 `http://localhost:3000/`
+
++ This what you should see:
+![screen shot 2016-09-05 at 21 45 47](https://cloud.githubusercontent.com/assets/2573931/18256814/419da96e-73b2-11e6-8825-60503314f15d.png)
 
 #### Tests
 
